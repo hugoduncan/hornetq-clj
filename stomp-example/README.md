@@ -24,4 +24,4 @@ Not designed to be installed...
 
 Copyright (C) 2010 Hugo Duncan
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the Eclipse Public License.

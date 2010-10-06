@@ -1,12 +1,12 @@
 # lein-hornetq
 
-Simple (lein)[http://github.com/technomancy/leiningen] plugin to start
-a (hotnetq)[http://www.jboss.org/hornetq] server.
+Simple [lein](http://github.com/technomancy/leiningen) plugin to start
+a [hotnetq](http://www.jboss.org/hornetq) server.
 
 ## Usage
 
 See the stomp
-(example)[http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/].
+[example](http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/).
 
 ## Installation
 

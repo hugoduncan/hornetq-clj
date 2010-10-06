@@ -1,6 +1,6 @@
 # hornetq-clj
 
-A collection of minimal wrappers for (hotnetq)[http://www.jboss.org/hornetq] server.
+A collection of minimal wrappers for [hotnetq](http://www.jboss.org/hornetq) server.
 
 <table>
   <thead><tr><th>project</th><th>descritption</th></tr></thead>
@@ -33,7 +33,7 @@ A collection of minimal wrappers for (hotnetq)[http://www.jboss.org/hornetq] ser
 ## Usage
 
 See the stomp
-(example)[http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/].
+[example](http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/).
 
 ## Installation
 

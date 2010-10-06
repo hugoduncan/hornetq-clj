@@ -1,11 +1,11 @@
 # hornetq-clj
 
-Simple wrapper for the (hotnetq)[http://www.jboss.org/hornetq] core client API.
+Simple wrapper for the [hotnetq](http://www.jboss.org/hornetq) core client API.
 
 ## Usage
 
 See the stomp
-(example)[http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/].
+[example](http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/).
 
 ## Installation
 
