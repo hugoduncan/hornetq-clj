@@ -1,17 +1,18 @@
-# hornetq-clj
+# hornetq-clj.server
 
-FIXME: write description
+A simple wrapper to start an embedded (hotnetq)[http://www.jboss.org/hornetq] server.
 
 ## Usage
 
-FIXME: write
+See
+(lein-hornetq)[http://github.com/hugoduncan/hornetq-clj/tree/master/lein-hornetq/]
+and the stomp
+(example)[http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/].
 
 ## Installation
 
-FIXME: write
-
 ## License
 
-Copyright (C) 2010 FIXME
+Copyright (C) 2010 Hugo Duncan.
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the Eclipse Public License.
