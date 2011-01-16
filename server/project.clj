@@ -1,4 +1,4 @@
-(defproject hornetq-clj/server "0.1.0-SNAPSHOT"
+(defproject hornetq-clj/server "0.1.0"
   :description "Simplify using hornetq server"
   :dependencies [[org.clojure/clojure "1.2.0"]
                  [org.hornetq/hornetq-core "2.1.2.Final"]

@@ -9,8 +9,11 @@ See the stomp
 
 ## Installation
 
+Add the following to you project.clj :dependencies
+    [hornetq-clj/lein-hornetq "0.1.0"]
+
 ## License
 
-Copyright (C) 2010 Hugo Duncan
+Copyright (C) 2010, 2011 Hugo Duncan
 
 Distributed under the Eclipse Public License.

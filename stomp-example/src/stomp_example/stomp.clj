@@ -1,4 +1,7 @@
 (ns stomp-example.stomp
+  "A simple example of using a STOMP message queue.
+   The producer and consumer would usually be in different processes, but for
+   simplicity are both in the same process here."
   (:require
    stomp)
   (:import

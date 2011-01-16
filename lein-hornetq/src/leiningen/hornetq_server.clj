@@ -1,4 +1,5 @@
 (ns leiningen.hornetq-server
+  "A leiningen plugin to start a HornetQ server."
   (:use [leiningen.compile :only [eval-in-project]]))
 
 (defn hornetq-server
