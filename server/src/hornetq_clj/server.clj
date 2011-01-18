@@ -37,6 +37,11 @@
 (def netty-acceptor-factory
   "org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory")
 
+(def in-vm-connector-factory
+  "org.hornetq.core.remoting.impl.invm.InVMConnectorFactory")
+(def in-vm-acceptor-factory
+  "org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory")
+
 (defn stomp-server
   [options]
   (server (merge-with
@@ -48,3 +53,12 @@
                         {:factory-class-name netty-acceptor-factory
                          :protocol "stomp"
                          :port 61613}]})))
+
+(defn in-vm-server
+  [options]
+  (server (merge-with
+           conj
+           options
+           {:connectors [{:name "invm-connector"
+                          :factory-class-name in-vm-connector-factory}]
+            :acceptors [{:factory-class-name in-vm-acceptor-factory}]})))
