@@ -184,12 +184,21 @@
 
 (defn messages
   "Create a lazy sequence of messages using the consumer"
-  [^ClientConsumer consumer]
-  (lazy-seq
-   (when-not (.isClosed consumer)
-     (cons
-      (.receive consumer)
-      (messages consumer)))))
+  ([^ClientConsumer consumer]
+     (lazy-seq
+      (when-not (.isClosed consumer)
+        (when-let [msg (.receive consumer)]
+          (cons
+           msg
+           (messages consumer))))))
+  ([^ClientConsumer consumer timeout]
+     {:pre [(integer? timeout)]}
+     (lazy-seq
+      (when-not (.isClosed consumer)
+        (when-let [msg (.receive consumer timeout)]
+          (cons
+           msg
+           (messages consumer timeout)))))))
 
 (defn send-message
   "Send a message via a producer"
