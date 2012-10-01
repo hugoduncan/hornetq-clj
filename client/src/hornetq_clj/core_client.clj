@@ -330,15 +330,40 @@
 (defn ^ClientMessage write-message
   "Write value to the message in a readable manner"
   [^ClientMessage message value]
-  (..  message getBodyBuffer (writeString (pr-str value)))
+  (binding [*print-readably* true]
+    (..  message getBodyBuffer (writeUTF (pr-str value))))
+  message)
+
+(defn ^ClientMessage write-message-string
+  "Write s to the message"
+  [^ClientMessage message s]
+  (..  message getBodyBuffer (writeUTF s))
   message)
 
 (defn read-message
   "Read the value from the message."
-  [^ClientMessage message]
+  ([^ClientMessage message]
+     (read-message message false))
+  ([^ClientMessage message eval]
+     {:pre [message]}
+     (binding [*read-eval* eval]
+       (let [msg (..  message getBodyBuffer readUTF)]
+         (read-string msg)))))
+
+(defn read-message-string
+  "Read a string from the message."
+  [^ClientMessage message ]
   {:pre [message]}
-  (binding [*read-eval* false]
-    (read-string (..  message getBodyBuffer readString))))
+  (..  message getBodyBuffer readUTF))
+
+(defn receive-message
+  "Send a message via a consumer"
+  ([^ClientConsumer consumer]
+     {:pre [consumer]}
+     (.receive consumer))
+  ([^ClientConsumer consumer ^long timeout]
+     {:pre [consumer timeout]}
+     (.receive consumer timeout)))
 
 (defn messages
   "Create a lazy sequence of messages using the consumer"
