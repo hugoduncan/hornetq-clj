@@ -13,24 +13,24 @@
    (let [m (dissoc m :factory-class-name)]
      (zipmap (map name (keys m)) (vals m)))))
 
-(defn server
+(defn make-server
   "Create a hornetq server"
-  [options]
+  [{:keys [acceptors connectors journal-type security-enabled]}]
   (HornetQServers/newHornetQServer
    (doto (ConfigurationImpl.)
      (.setAcceptorConfigurations
-      (set (map transport-configuration (:acceptors options))))
+      (set (map transport-configuration acceptors)))
      (.setConnectorConfigurations
       (into {}
             (map #(vector (:name %) (transport-configuration (dissoc % :name)))
-                 (:connectors options))))
+                 connectors)))
      (.setJournalType
-      (if-let [journal-type (:journal-type options)]
+      (if journal-type
         (Enum/valueOf JournalType (name journal-type))
         (if (AIOSequentialFileFactory/isSupported)
           JournalType/ASYNCIO
           JournalType/NIO)))
-     (.setSecurityEnabled (boolean (:security-enabled options))))))
+     (.setSecurityEnabled (boolean security-enabled)))))
 
 (def netty-connector-factory
   "org.hornetq.core.remoting.impl.netty.NettyConnectorFactory")
@@ -42,23 +42,39 @@
 (def in-vm-acceptor-factory
   "org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory")
 
-(defn stomp-server
-  [options]
-  (server (merge-with
-           conj
-           options
-           {:connectors [{:name "netty-connector"
-                          :factory-class-name netty-connector-factory}]
-            :acceptors [{:factory-class-name netty-acceptor-factory}
-                        {:factory-class-name netty-acceptor-factory
-                         :protocol "stomp"
-                         :port 61613}]})))
+(defn server
+  [{:keys [connectors acceptors netty stomp in-vm] :as options}]
+  (make-server (merge-with
+                conj
+                (select-keys options [:connectors :acceptors])
+                {:connectors (filter
+                              identity
+                              [(when (or stomp netty)
+                                 {:name "netty-connector"
+                                  :factory-class-name
+                                  netty-connector-factory})
+                               (when in-vm
+                                 {:name "invm-connector"
+                                  :factory-class-name
+                                  in-vm-connector-factory})])
+                 :acceptors (filter
+                             identity
+                             [(when netty
+                                (merge
+                                 {:factory-class-name netty-acceptor-factory
+                                  :port (or (and (number? netty) netty) 5445)}))
+                              (when stomp
+                                {:factory-class-name netty-acceptor-factory
+                                 :protocol "stomp"
+                                 :port (or (and (number? stomp) stomp)
+                                           61613)})
+                              (when in-vm
+                                {:factory-class-name
+                                 in-vm-acceptor-factory})])})))
 
 (defn in-vm-server
-  [options]
-  (server (merge-with
-           conj
-           options
-           {:connectors [{:name "invm-connector"
-                          :factory-class-name in-vm-connector-factory}]
-            :acceptors [{:factory-class-name in-vm-acceptor-factory}]})))
+  [{:keys [connectors acceptors netty stomp] :as options}]
+  (server (assoc options :in-vm true)))
+
+(defn locate-queue [server ^String queue-name]
+  (.locateQueue server (org.hornetq.api.core.SimpleString. queue-name)))
