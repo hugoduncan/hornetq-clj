@@ -1,4 +1,8 @@
-(defproject hornetq-clj/lein-hornetq "0.1.0"
+(defproject hornetq-clj/lein-hornetq "0.2.0-SNAPSHOT"
   :description "lein hornetq server"
-  :dependencies [[org.clojure/clojure "1.2.0"]
-                 [hornetq-clj/server "0.1.0"]])
+  :url "https://github.com/hugoduncan/hornetq-clj"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :dependencies [[org.clojure/clojure "1.2.1"]
+                 [hornetq-clj/server "0.2.0-SNAPSHOT"]]
+  :eval-in-leiningen true)

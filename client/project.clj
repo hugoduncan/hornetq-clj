@@ -1,8 +1,10 @@
-(defproject hornetq-clj/client "0.1.2"
+(defproject hornetq-clj/client "0.2.0-SNAPSHOT"
   :description "Simplify using hornetq server"
-  :dependencies [[org.clojure/clojure "1.2.0"]
-                 [org.hornetq/hornetq-core-client "2.1.2.Final"]
+  :url "https://github.com/hugoduncan/hornetq-clj"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :dependencies [[org.clojure/clojure "1.2.1"]
+                 [org.hornetq/hornetq-core-client "2.2.18.Final"]
                  [org.jboss.netty/netty "3.2.1.Final"]]
-  :dev-dependencies [[swank-clojure "1.2.1"]]
   :repositories {"JBoss releases"
                  "http://repository.jboss.org/nexus/content/groups/public-jboss/"})
