@@ -388,6 +388,13 @@
   ([^ClientProducer producer ^ClientMessage message]
      {:pre [producer message]}
      (.send producer message))
-  ([^ClientProducer producer ^ClientMessage message address]
+  ([^ClientProducer producer ^ClientMessage message ^String address]
      {:pre [producer message (stringish? address)]}
      (.send producer address message)))
+
+(deftype Handler [f]
+  MessageHandler
+  (onMessage [_ msg]
+    (f msg)))
+
+(defn message-handler [f] (Handler. f))
