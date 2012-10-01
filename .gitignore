@@ -4,3 +4,5 @@ lib
 classes
 data
 checkouts
+target
+.lein-failures
