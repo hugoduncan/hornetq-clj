@@ -14,7 +14,7 @@
                      (catch java.io.FileNotFoundException _)))]
     (apply eip args)))
 
-(def deps '[[hornetq-clj/server "0.2.0-SNAPSHOT"]
+(def deps '[[hornetq-clj/server "0.2.0"]
             [org.slf4j/jul-to-slf4j "1.6.4"]
             [ch.qos.logback/logback-classic "1.0.0"]])
 

@@ -12,7 +12,7 @@ and the stomp
 ## Installation
 
 Add the following to you project.clj :dependencies
-    [hornetq-clj/server "0.1.0"]
+    [hornetq-clj/server "0.2.0"]
 
 ## License
 
