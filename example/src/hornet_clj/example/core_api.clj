@@ -1,16 +1,22 @@
-(ns stomp-example.stomp
-  "A simple example of using a STOMP message queue.
-   The producer and consumer would usually be in different processes, but for
-   simplicity are both in the same process here."
+(ns hornetq-clj.example.core-api
   (:require
-   stomp)
-  (:import
-   java.io.IOException
-   java.net.Socket
-   (java.util.concurrent
-    Callable Future ExecutorService Executors TimeUnit
-    ThreadFactory
-    CancellationException ExecutionException TimeoutException)))
+   [hornetq-clj.core-client :as core-client]))
+
+(defn make-queues
+  "Make the nrepl queues on the hornetmq server if needed"
+  [{:keys [service-queue client-queue]}]
+  (let [session-factory (core-client/session-factory {})]
+    (with-open [session (core-client/session session-factory "" "" {})]
+      (try
+        (core-client/create-queue session "/queue/service" {})
+        (catch org.hornetq.api.core.HornetQException e
+          (println (.getMessage e))))
+      (try
+        (core-client/create-queue session "/queue/consumer" {})
+        (catch org.hornetq.api.core.HornetQException e
+          (println (.getMessage e)))))))
+
+
 
 
 (defn service []
