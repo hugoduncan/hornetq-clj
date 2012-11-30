@@ -1,4 +1,4 @@
-(defproject hornetq-clj/server "0.2.0"
+(defproject hornetq-clj/server "0.2.1-SNAPSHOT"
   :description "Simplify using hornetq server"
   :url "https://github.com/hugoduncan/hornetq-clj"
   :license {:name "Eclipse Public License"
