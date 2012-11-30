@@ -17,15 +17,6 @@ A collection of minimal wrappers for [hotnetq](http://www.jboss.org/hornetq) ser
       <td><a href="http://github.com/hugoduncan/hornetq-clj/tree/master/lein-hornetq/">lein hornetq-server</a></td>
       <td>A lein plugin for starting a hornetq server (with STOMP).</td>
     </tr>
-    <tr>
-      <td>
-      <a href="http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/">stomp example</a></td>
-      <td>
-      A simple example of creating queues using core client api, and using
-      <a href="http://github.com/ninjudd/clj-stomp">clj-stomp</a> to exchange
-      STOMP messages.
-      </td>
-    </tr>
   </tbody>
 </table>
 
@@ -39,6 +30,6 @@ See the stomp
 
 ## License
 
-Copyright (C) 2010 Hugo Duncan
+Copyright (C) 2010, 2012 Hugo Duncan
 
 Distributed under the Eclipse Public License.

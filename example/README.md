@@ -1,6 +1,6 @@
-# stomp-example
+# example
 
-Example of using stomp with hornetq.
+Example of using hornetq-clj.
 
 ## Usage
 
@@ -29,6 +29,6 @@ You should see something like:
 
 ## License
 
-Copyright (C) 2010, 2011 Hugo Duncan
+Copyright (C) 2010, 2011, 2012 Hugo Duncan
 
 Distributed under the Eclipse Public License.
