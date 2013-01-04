@@ -189,8 +189,8 @@
                                            {"host" host "port" port})]
     (-> (HornetQClient/createServerLocatorWithoutHA
          (into-array TransportConfiguration [transport]))
-        .createSessionFactory
-        (doto (.setReconnectAttempts -1)))))
+         (doto (.setReconnectAttempts -1))
+        .createSessionFactory)))
 
 (defn in-vm-session-factory
   "Create a session factory for an in VM server."
