@@ -215,14 +215,17 @@
 
 (defn create-temporary-queue
   [^ClientSession session ^String queue-name
-   & {:keys [^String address ^String filter]}]
-  (.createTemporaryQueue session (or address queue-name) queue-name filter))
+   {:keys [^String address ^String filter]}]
+  (if filter
+    (.createTemporaryQueue session (or address queue-name) queue-name filter)
+    (.createTemporaryQueue session (or address queue-name) queue-name)))
 
 (defn ensure-temporary-queue
   "Ensure the specified temporary queue exists, creating it if not."
-  [^ClientSession session queue-name & {:keys [address filter] :as options}]
+  [^ClientSession session queue-name
+   {:keys [address filter] :as options}]
   (try
-    (apply create-temporary-queue session queue-name (apply concat options))
+    (create-temporary-queue session queue-name options)
     (catch HornetQException e
       (when-not (= (.getCode e) HornetQException/QUEUE_EXISTS)
         (throw e)))))
