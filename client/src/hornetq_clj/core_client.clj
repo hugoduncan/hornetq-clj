@@ -283,7 +283,7 @@
      (.createProducer session address (int rate))))
 
 (defn ^ClientConsumer create-consumer
-  "Create a message producer than can be used to consume messages from the
+  "Create a message consumer than can be used to consume messages from the
    queue specified by `queue-name`.
 
    Options:
