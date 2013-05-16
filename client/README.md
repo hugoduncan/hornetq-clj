@@ -10,7 +10,7 @@ See the stomp
 ## Installation
 
 Add the following to you project.clj :dependencies
-    [hornetq-clj/lein-hornetq "0.2.0"]
+    [hornetq-clj/lein-hornetq "0.2.1"]
 
 ## License
 

@@ -14,7 +14,7 @@ To start a hornetq server with security disabled
 ## Installation
 
 Add the following to you project.clj :dev-dependencies
-    [hornetq-clj/lein-hornetq "0.2.0"]
+    [hornetq-clj/lein-hornetq "0.2.1"]
 
 ## License
 
