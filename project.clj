@@ -1,4 +1,4 @@
-(defproject hornetq-clj "0.2.0"
+(defproject hornetq-clj "0.2.1"
   :description "hornetq clj interface"
   :url "https://github.com/hugoduncan/hornetq-clj"
   :license {:name "Eclipse Public License"

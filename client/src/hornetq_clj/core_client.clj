@@ -189,8 +189,8 @@
                                            {"host" host "port" port})]
     (-> (HornetQClient/createServerLocatorWithoutHA
          (into-array TransportConfiguration [transport]))
-        .createSessionFactory
-        (doto (.setReconnectAttempts -1)))))
+         (doto (.setReconnectAttempts -1))
+        .createSessionFactory)))
 
 (defn in-vm-session-factory
   "Create a session factory for an in VM server."
@@ -215,14 +215,17 @@
 
 (defn create-temporary-queue
   [^ClientSession session ^String queue-name
-   & {:keys [^String address ^String filter]}]
-  (.createTemporaryQueue session (or address queue-name) queue-name filter))
+   {:keys [^String address ^String filter]}]
+  (if filter
+    (.createTemporaryQueue session (or address queue-name) queue-name filter)
+    (.createTemporaryQueue session (or address queue-name) queue-name)))
 
 (defn ensure-temporary-queue
   "Ensure the specified temporary queue exists, creating it if not."
-  [^ClientSession session queue-name & {:keys [address filter] :as options}]
+  [^ClientSession session queue-name
+   {:keys [address filter] :as options}]
   (try
-    (apply create-temporary-queue session queue-name (apply concat options))
+    (create-temporary-queue session queue-name options)
     (catch HornetQException e
       (when-not (= (.getCode e) HornetQException/QUEUE_EXISTS)
         (throw e)))))
@@ -283,7 +286,7 @@
      (.createProducer session address (int rate))))
 
 (defn ^ClientConsumer create-consumer
-  "Create a message producer than can be used to consume messages from the
+  "Create a message consumer than can be used to consume messages from the
    queue specified by `queue-name`.
 
    Options:
