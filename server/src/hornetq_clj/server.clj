@@ -20,8 +20,9 @@
 
 (defn make-server
   "Create a hornetq server"
-  [{:keys [acceptors connectors journal-type security-enabled]
+  [{:keys [acceptors connectors journal-type security-enabled persistence-enabled]
     :or {security-enabled true
+         persistence-enabled true
          journal-type default-journal-type}}]
   (HornetQServers/newHornetQServer
    (doto (ConfigurationImpl.)
@@ -32,7 +33,8 @@
             (map #(vector (:name %) (transport-configuration (dissoc % :name)))
                  connectors)))
      (.setJournalType (Enum/valueOf JournalType (name journal-type)))
-     (.setSecurityEnabled (boolean security-enabled)))))
+     (.setSecurityEnabled (boolean security-enabled))
+     (.setPersistenceEnabled (boolean persistence-enabled)))))
 
 (def netty-connector-factory
   "org.hornetq.core.remoting.impl.netty.NettyConnectorFactory")
