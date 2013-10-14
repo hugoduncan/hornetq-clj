@@ -13,9 +13,16 @@
    (let [m (dissoc m :factory-class-name)]
      (zipmap (map name (keys m)) (vals m)))))
 
+(def default-journal-type
+  (if (AIOSequentialFileFactory/isSupported)
+    :ASYNCIO
+    :NIO))
+
 (defn make-server
   "Create a hornetq server"
-  [{:keys [acceptors connectors journal-type security-enabled]}]
+  [{:keys [acceptors connectors journal-type security-enabled]
+    :or {security-enabled true
+         journal-type default-journal-type}}]
   (HornetQServers/newHornetQServer
    (doto (ConfigurationImpl.)
      (.setAcceptorConfigurations
@@ -24,12 +31,7 @@
       (into {}
             (map #(vector (:name %) (transport-configuration (dissoc % :name)))
                  connectors)))
-     (.setJournalType
-      (if journal-type
-        (Enum/valueOf JournalType (name journal-type))
-        (if (AIOSequentialFileFactory/isSupported)
-          JournalType/ASYNCIO
-          JournalType/NIO)))
+     (.setJournalType (Enum/valueOf JournalType (name journal-type)))
      (.setSecurityEnabled (boolean security-enabled)))))
 
 (def netty-connector-factory
