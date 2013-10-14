@@ -43,10 +43,10 @@
   "org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory")
 
 (defn server
-  [{:keys [connectors acceptors netty stomp in-vm] :as options}]
+  [{:keys [netty stomp in-vm] :as options}]
   (make-server (merge-with
                 conj
-                (select-keys options [:connectors :acceptors])
+                options
                 {:connectors (filter
                               identity
                               [(when (or stomp netty)
