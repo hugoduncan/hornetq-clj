@@ -1,6 +1,6 @@
 # hornetq-clj.server
 
-A simple wrapper to start an embedded [hotnetq](http://www.jboss.org/hornetq) server.
+A simple wrapper to start an embedded [hornetq](http://www.jboss.org/hornetq) server.
 
 ## Usage
 
