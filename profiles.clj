@@ -1,2 +1,1 @@
-{:dev
- {:plugins [[lein-set-version "0.2.1"]]}}
+{:dev {:plugins [[lein-pallet-release "RELEASE"]]}}
