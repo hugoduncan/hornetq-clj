@@ -32,7 +32,7 @@
            block-on-non-durable-send
            cache-large-message-client
            call-failover-timeout
-           call-timout
+           call-timeout
            client-failure-check-period
            compress-large-message
            confirmation-window-size
@@ -69,8 +69,8 @@
     (.setCacheLargeMessageClient server-locator cache-large-message-client))
   (when call-failover-timeout
     (.setCallFailoverTimeout server-locator call-failover-timeout))
-  (when call-timout
-    (.setCallTimout server-locator call-timout))
+  (when call-timeout
+    (.setCallTimeout server-locator call-timeout))
   (when client-failure-check-period
     (.setClientFailureCheckPeriod server-locator client-failure-check-period))
   (when-not (nil? compress-large-message)
