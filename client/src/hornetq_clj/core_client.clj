@@ -6,7 +6,6 @@
    (org.hornetq.api.core.client
     ClientConsumer ClientMessage ClientProducer ClientSession
     ClientSessionFactory HornetQClient MessageHandler ServerLocator)
-   org.hornetq.core.remoting.impl.invm.InVMConnectorFactory
    org.hornetq.core.remoting.impl.netty.NettyConnectorFactory))
 
 (defn- stringish?
@@ -167,7 +166,8 @@
 
 (defmethod transport :in-vm
   [{:as _}]
-  (TransportConfiguration. (.getName InVMConnectorFactory)))
+  (TransportConfiguration.
+   "org.hornetq.core.remoting.impl.invm.InVMConnectorFactory"))
 
 (defn ^ClientSessionFactory session-factory
   [^ServerLocator server-locator]
@@ -195,7 +195,8 @@
 (defn in-vm-session-factory
   "Create a session factory for an in VM server."
   [_]
-  (let [transport (TransportConfiguration. (.getName InVMConnectorFactory))]
+  (let [transport (TransportConfiguration.
+                   "org.hornetq.core.remoting.impl.invm.InVMConnectorFactory")]
     (-> (HornetQClient/createServerLocatorWithoutHA
          (into-array TransportConfiguration [transport]))
         .createSessionFactory)))
