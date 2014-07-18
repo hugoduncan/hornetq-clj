@@ -361,7 +361,7 @@
   (..  message getBodyBuffer readUTF))
 
 (defn receive-message
-  "Send a message via a consumer"
+  "Receive a message via a consumer"
   ([^ClientConsumer consumer]
      {:pre [consumer]}
      (.receive consumer))
