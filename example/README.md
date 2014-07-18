@@ -5,27 +5,37 @@ Example of using hornetq-clj.
 ## Usage
 
 Start server with lein hornetq-server.
-    lein hornetq-server :security-enabled false
 
-Start a REPL with the project classpath (e.g. `lein swank`).
+    lein hornetq-server --disable-security
+
+Start a REPL with the project classpath (e.g. `lein repl`).
 
 Make the queues in the server.
-    (require 'stomp-example.core-api)
-    (stomp-example.core-api/make-queues)
+
+```clj
+(require 'hornetq-clj.example.core-api)
+(hornetq-clj.example.core-api/make-queues {})
+```
 
 Start the service.
-    (require 'stomp-example.stomp)
-    (def service (stomp-example.stomp/run-service))
+
+```clj
+(def service (hornetq-clj.example.core-api/run-service))
+```
 
 Run the consumer.
-    (stomp-example.stomp/consumer)
+
+```clj
+(hornetq-clj.example.core-api/consumer)
+```
 
 You should see something like:
 
-    Consumer connected
-    Consumer subscribed
-    Consumer sent message
-    {:body {:type :MESSAGE, :headers {:destination /queue/consumer, :message-id 4294967313, :content-length 20, :priority 0, :subscription subscription//queue/consumer, :expires 0, :redelivered false, :timestamp 1295137286538}, :body Hello: i'm a message}}
+```
+Message sent to service
+Message received from service #<ClientMessageImpl ClientMessage[messageID=110, durable=false, address=/queue/consumer,userID=null,properties=TypedProperties[null]]>
+Hello: I'm a message
+```
 
 ## License
 

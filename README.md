@@ -23,13 +23,13 @@ A collection of minimal wrappers for [hotnetq](http://www.jboss.org/hornetq) ser
 
 ## Usage
 
-See the stomp
-[example](http://github.com/hugoduncan/hornetq-clj/tree/master/stomp-example/).
+See the client
+[example](http://github.com/hugoduncan/hornetq-clj/tree/master/example/).
 
 ## Installation
 
 ## License
 
-Copyright (C) 2010, 2012 Hugo Duncan
+Copyright (C) 2010, 2012, 2014 Hugo Duncan
 
 Distributed under the Eclipse Public License.

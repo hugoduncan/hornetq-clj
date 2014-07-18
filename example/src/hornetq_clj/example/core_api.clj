@@ -1,52 +1,72 @@
 (ns hornetq-clj.example.core-api
   (:require
-   [hornetq-clj.core-client :as core-client]))
+   [hornetq-clj.core-client :as core-client])
+  (:import
+   (java.util.concurrent
+    Callable Future ExecutorService Executors
+    ThreadFactory
+    CancellationException ExecutionException TimeoutException)))
+
+(defn session-factory
+  []
+  (core-client/session-factory
+   (core-client/server-locator
+    :static {} (core-client/transport {:host "localhost"}))))
+
+(defn session
+  [session-factory]
+  (core-client/session session-factory "admin" "password" {}))
 
 (defn make-queues
   "Make the nrepl queues on the hornetmq server if needed"
-  [{:keys [service-queue client-queue]}]
-  (let [session-factory (core-client/session-factory {})]
-    (with-open [session (core-client/session session-factory "" "" {})]
+  [{:keys [service-queue client-queue]
+    :or {service-queue "/queue/service"
+         client-queue "/queue/consumer"}}]
+  (let [session-factory (session-factory)]
+    (with-open [session (session session-factory)]
       (try
-        (core-client/create-queue session "/queue/service" {})
+        (core-client/create-queue session service-queue {})
         (catch org.hornetq.api.core.HornetQException e
           (println (.getMessage e))))
       (try
-        (core-client/create-queue session "/queue/consumer" {})
+        (core-client/create-queue session client-queue {})
         (catch org.hornetq.api.core.HornetQException e
           (println (.getMessage e)))))))
 
-
-
-
 (defn service []
-  (with-open [socket (java.net.Socket. "localhost" 61613)]
-    (stomp/with-connection socket {:login "" :password ""}
-      (println "Service connected")
-      (stomp/subscribe socket {:destination "/queue/service"})
-      (println "Service subscribed")
-      (loop []
-        (let [message (stomp/receive socket)]
-          (println "Service received message")
-          (when-let [reply-to (:reply-to (:headers message))]
-            (stomp/send socket {:destination reply-to}
-                        (str "Hello: " (:body message)))
-            (println "Service replied to message"))
-          (recur))))))
-
+  (let [session-factory (session-factory)]
+    (let [session (session session-factory)
+          consumer (core-client/create-consumer session "/queue/service" {})
+          producer (core-client/create-producer session "/queue/consumer")
+          handler (core-client/message-handler
+                   (fn [msg]
+                     (let [message (core-client/read-message msg)]
+                       (core-client/acknowledge msg)
+                       (when-let [reply-to (:reply-to message)]
+                         (let [m (core-client/create-message session false)]
+                           (core-client/write-message-string
+                            m (str "Hello: " (:body message)))
+                           (core-client/send-message producer m reply-to))))))]
+      (.setMessageHandler consumer handler)
+      (.start session)
+      [session consumer producer])))
 
 (defn consumer []
-  (with-open [socket (java.net.Socket. "localhost" 61613)]
-    (stomp/with-connection socket {:login "" :password ""}
-      (println "Consumer connected")
-      (stomp/subscribe socket {:destination "/queue/consumer"})
-      (println "Consumer subscribed")
-      (stomp/send socket
-                  {:destination "/queue/service" :reply-to "/queue/consumer"}
-                  "i'm a message")
-      (println "Consumer sent message")
-      (let [message (stomp/receive socket)]
-        (println {:body message})))))
+  (let [session-factory (session-factory)]
+    (with-open [session (session session-factory)]
+      (let [consumer (core-client/create-consumer session "/queue/consumer" {})
+            producer (core-client/create-producer session "/queue/service")
+            message (core-client/create-message session false)]
+        (.start session)
+        (core-client/write-message
+         message
+         {:reply-to "/queue/consumer" :body "I'm a message"})
+        (core-client/send-message producer message "/queue/service")
+        (println "Message sent to service")
+        (let [message (core-client/receive-message consumer 5000)]
+          (when message
+            (core-client/acknowledge message)
+            (println (core-client/read-message-string message))))))))
 
 (defonce #^ExecutorService executor
   (Executors/newCachedThreadPool
