@@ -7,4 +7,5 @@
   :aliases {"install" ["modules" "install"]
             "deploy" ["modules" "deploy"]
             "test" ["modules" "test"]
-            "clean" ["modules" "clean"]})
+            "clean" ["modules" "clean"]}
+  :profiles {:travis {:modules {:subprocess "lein2"}}})
