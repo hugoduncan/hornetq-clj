@@ -2,7 +2,7 @@
   "Hornetq core client api"
   (:import
    (org.hornetq.api.core
-    HornetQException SimpleString TransportConfiguration)
+    HornetQException HornetQExceptionType SimpleString TransportConfiguration)
    (org.hornetq.api.core.client
     ClientConsumer ClientMessage ClientProducer ClientSession
     ClientSessionFactory HornetQClient MessageHandler ServerLocator)
@@ -227,7 +227,7 @@
   (try
     (create-temporary-queue session queue-name options)
     (catch HornetQException e
-      (when-not (= (.getCode e) HornetQException/QUEUE_EXISTS)
+      (when-not (= (.getCode e) HornetQExceptionType/QUEUE_EXISTS)
         (throw e)))))
 
 (defn create-queue
@@ -246,7 +246,7 @@
   (try
     (create-queue session queue-name options)
     (catch HornetQException e
-      (when-not (= (.getCode e) HornetQException/QUEUE_EXISTS)
+      (when-not (= (.getCode e) HornetQExceptionType/QUEUE_EXISTS)
         (throw e)))))
 
 (defn query-queue
