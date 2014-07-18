@@ -3,9 +3,8 @@
   :url "https://github.com/hugoduncan/hornetq-clj"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :plugins [[lein-modules "0.3.2"]]
+  :plugins [[lein-modules "0.3.6"]]
   :aliases {"install" ["modules" "install"]
             "deploy" ["modules" "deploy"]
             "test" ["modules" "test"]
-            "clean" ["modules" "clean"]}
-  :profiles {:travis {:modules {:subprocess "lein2"}}})
+            "clean" ["modules" "clean"]})
