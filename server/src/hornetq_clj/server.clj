@@ -19,11 +19,13 @@
     :NIO))
 
 (defn make-server
-  "Create a hornetq server"
-  [{:keys [acceptors connectors journal-type security-enabled persistence-enabled]
+  "Create a hornetq server.  Requires a :user and :password."
+  [{:keys [acceptors connectors journal-type security-enabled
+           persistence-enabled user password]
     :or {security-enabled true
          persistence-enabled true
          journal-type default-journal-type}}]
+  {:pre [user password]}
   (HornetQServers/newHornetQServer
    (doto (ConfigurationImpl.)
      (.setAcceptorConfigurations
@@ -34,7 +36,9 @@
                  connectors)))
      (.setJournalType (Enum/valueOf JournalType (name journal-type)))
      (.setSecurityEnabled (boolean security-enabled))
-     (.setPersistenceEnabled (boolean persistence-enabled)))))
+     (.setPersistenceEnabled (boolean persistence-enabled))
+     (.setClusterUser user)
+     (.setClusterPassword password))))
 
 (def netty-connector-factory
   "org.hornetq.core.remoting.impl.netty.NettyConnectorFactory")
