@@ -1,3 +1,1 @@
-{:release
- {:set-version
-  {:updates [{:path "README.md" :no-snapshot true}]}}}
+{:provided {:dependencies [[org.clojure/clojure "1.2.1"]]}}
