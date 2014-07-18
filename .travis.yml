@@ -7,4 +7,5 @@ after_success:
 - lein2 pallet-release push
 env:
   global:
-    secure: Wmw8Qmr/fy2PJrD4sEBz3SPoVt49hNtstmThV20A7I0Y4PFCkHXY4zO3Ueb8ebaRCFPizJXO8PklnRoxNkPmnUCsgObWloc+WooVpqG4gU76ukFbGqbco0dyCaqmwEWxvjRvRKgxRCyzKadZycw8buTj/b0+j85D/nP0q2zPx+g=
+    - secure: Wmw8Qmr/fy2PJrD4sEBz3SPoVt49hNtstmThV20A7I0Y4PFCkHXY4zO3Ueb8ebaRCFPizJXO8PklnRoxNkPmnUCsgObWloc+WooVpqG4gU76ukFbGqbco0dyCaqmwEWxvjRvRKgxRCyzKadZycw8buTj/b0+j85D/nP0q2zPx+g=
+    - LEIN_CMD=lein2

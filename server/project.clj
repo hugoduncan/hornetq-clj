@@ -7,5 +7,4 @@
                  [org.jboss.netty/netty "3.2.1.Final"]]
   :plugins [[lein-modules "0.3.6"]]
   :repositories {"JBoss releases"
-                 "http://repository.jboss.org/nexus/content/groups/public-jboss/"}
-  :profiles {:travis {:modules {:subprocess "lein2"}}})
+                 "http://repository.jboss.org/nexus/content/groups/public-jboss/"})
