@@ -6,4 +6,5 @@ classes
 data
 checkouts
 target
-.lein-failures
+.lein-*
+.nrepl-*
