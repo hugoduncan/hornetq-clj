@@ -7,6 +7,6 @@
 (deftest stomp-server-test
   (let [server (server/server {:netty 55445})]
     (.start server)
-    (is (.isInitialised server))
+    (is (.isActive server))
     (is (.isStarted server))
     (.stop server)))
